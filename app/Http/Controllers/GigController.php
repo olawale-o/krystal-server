@@ -27,6 +27,7 @@ class GigController extends Controller
             'company' => $validated["company"],
             'role' => $validated["role"],
             'address' => $validated["address"],
+            'region_id' => $validated["region_id"],
             'tags' => $validated["tags"],
             'min_salary' => $validated["min_salary"],
             'max_salary' => $validated["max_salary"],
