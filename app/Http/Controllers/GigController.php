@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\NewGigFormRequest;
 use App\Models\Gig;
 use App\Models\User;
+use App\Http\Resources\GigResource;
+use App\Http\Resources\GigCollection;
 
 class GigController extends Controller
 {
@@ -32,7 +34,7 @@ class GigController extends Controller
         if($gig) {
             
             $response = [
-                'gig' => $gig,
+                'gig' => new GigResource($gig),
                 'response' => 'gig created'
             ];
             return response($response, 200);
@@ -47,7 +49,7 @@ class GigController extends Controller
         $gigs =  Gig::with("user")->get();
 
         $response = [
-            'response' => $gigs,
+            'response' => new GigCollection($gigs),
             'message' => "All gigs successfully retrieved"
         ];
 
@@ -61,7 +63,7 @@ class GigController extends Controller
         $gigs = $user->gigs;
 
         $response = [
-            'response' => $gigs,
+            'response' => new GigCollection($gigs),
             'message' => "My gigs successfully retrieved"
         ];
 
@@ -75,7 +77,7 @@ class GigController extends Controller
         
 
         $response = [
-            'response' => $gigs,
+            'response' => new GigCollection($gigs),
             'message' => "Rejected gigs successfully retrieved"
         ];
 
