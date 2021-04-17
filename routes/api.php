@@ -21,9 +21,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::prefix('gigs')->group(function() {
+    Route::get('/all', [GigController::class,'allGigs']);
+    Route::get('/rejected', [GigController::class,'rejectedGigs']);
+    Route::get('/{id}', [GigController::class,'gigs']);
+});
 Route::post('new-gig', [GigController::class,'create']);
-Route::get('all-gigs', [GigController::class,'allGigs']);
-Route::get('rejected-gigs', [GigController::class,'rejectedGigs']);
-Route::get('my-gigs/{id}', [GigController::class,'gigs']);
 Route::post('create', [RegisterController::class,'create']);
 Route::post('login', [LoginController::class,'login']);
