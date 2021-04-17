@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Http\Requests\LoginFormRequest;
+use App\Http\Resources\UserResource;
 
 class LoginController extends Controller
 {
@@ -54,7 +55,7 @@ class LoginController extends Controller
             {
                 $response = [
                     'response' => [
-                        "user" => $user,
+                        "user" => new UserResource($user),
                         "message" => "Logged in successfully"
                     ]
                 ];

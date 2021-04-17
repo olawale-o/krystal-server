@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UserCreateFormRequest;
+use App\Http\Resources\UserResource;
 
 class RegisterController extends Controller
 {
@@ -62,7 +63,7 @@ class RegisterController extends Controller
         {
             $response  = [
                 'response' => [
-                    'user' => $user,
+                    'user' => new UserResource($user),
                     'message' => "user created"
                 ]
             ];
