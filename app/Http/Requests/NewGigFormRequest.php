@@ -28,6 +28,7 @@ class NewGigFormRequest extends FormRequest
             'company' => 'required',
             'role' => 'required',
             'address' => 'required',
+            'region_id' => 'required',
             'tags' => 'required',
             'min_salary' => 'required',
             'max_salary' => 'required'
@@ -42,10 +43,11 @@ class NewGigFormRequest extends FormRequest
     public function attributes()
     {
         return [
-            'user_id' => 'user_id',
+            'user' => 'user_id',
             'company' => 'company',
             'role' => 'role',
             'address' => 'address',
+            'region' => 'region_id',
             'tags' => 'tags',
             'min_salary' => 'min_salary',
             'max_salary' => 'max_salary'
@@ -60,10 +62,11 @@ class NewGigFormRequest extends FormRequest
     public function messages()
     {
         return [
-            'user_id' => ':attribute does not exists',
+            'user' => ':attribute does not exists',
             'company.required' => ':attribute is not valid',
             'role.required' => ':attribute is not valid',
             'address.required' => ':attribute is not valid',
+            'region.required' => ':attribute is not valid',
             'tags.required' => ':attribute is not valid',
             'min_salary.required' => ':attribute is not valid',
             'max_salary.required' => ':attribute is not valid'
