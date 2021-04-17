@@ -41,6 +41,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+     /**
+     * The relationship between Gig and User models
+     * @param null
+     * @return \App\Models\Gig|Gig
+     */
+
     public function gigs()
     {
         return $this->hasMany("App\Models\Gig");

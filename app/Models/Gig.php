@@ -27,7 +27,7 @@ class Gig extends Model
     /**
      * The relationship between Gig and User models
      * @param null
-     * @return \App\Model\User|User
+     * @return \App\Models\User|User
      */
     public function user()
     {
