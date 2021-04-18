@@ -24,11 +24,11 @@ class NewGigFormRequest extends FormRequest
     public function rules()
     {
         return [
-            "user_id" => "required|exists:users,id",
+            "user" => "required|exists:users,id",
             'company' => 'required',
             'role' => 'required',
             'address' => 'required',
-            'region_id' => 'required',
+            'region' => 'required',
             'tags' => 'required',
             'min_salary' => 'required',
             'max_salary' => 'required'
@@ -43,11 +43,11 @@ class NewGigFormRequest extends FormRequest
     public function attributes()
     {
         return [
-            'user' => 'user_id',
+            'user' => 'user',
             'company' => 'company',
             'role' => 'role',
             'address' => 'address',
-            'region' => 'region_id',
+            'region' => 'region',
             'tags' => 'tags',
             'min_salary' => 'min_salary',
             'max_salary' => 'max_salary'

@@ -23,11 +23,11 @@ class GigController extends Controller
 
         $validated =  $request->validated();
         $gig =  Gig::create([
-            'user_id' => $validated["user_id"],
+            'user_id' => $validated["user"],
             'company' => $validated["company"],
             'role' => $validated["role"],
             'address' => $validated["address"],
-            'region_id' => $validated["region_id"],
+            'region_id' => $validated["region"],
             'tags' => $validated["tags"],
             'min_salary' => $validated["min_salary"],
             'max_salary' => $validated["max_salary"],
@@ -40,6 +40,9 @@ class GigController extends Controller
             ];
             return response($response, 200);
         }
+        $response = [
+            'message' => "unable to save gig",
+        ];
         
         return response($response,500);
     }
