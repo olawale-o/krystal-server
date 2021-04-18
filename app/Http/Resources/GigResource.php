@@ -24,7 +24,7 @@ class GigResource extends JsonResource
             'region' => new RegionResource($this->region),
             'min_salary' => $this->min_salary,
             'max_salary' => $this->max_salary,
-            'created_at' => $this->created_at,
+            'created_at' => date("jS\, F Y",strtotime($this->created_at)),
         ];
         //parent::toArray($request);
     }
