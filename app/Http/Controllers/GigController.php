@@ -88,4 +88,27 @@ class GigController extends Controller
         return response($response, 200);
 
     }
+
+    public function delete($id)
+    {
+        
+        $gig =  Gig::destroy($id);
+
+        if($gig) {
+
+            $response = [
+                'response' => $gig,
+                'message' => "Gigs successfully deleted"
+            ];
+    
+            return response($response, 200);
+        }
+
+        $response = [
+            'response' => $gig,
+            'message' => "Gig does not exist"
+        ];
+        return response($response, 500);
+        
+    }
 }
