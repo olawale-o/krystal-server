@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\NewGigFormRequest;
+use App\Http\Requests\GigFormRequest;
 use App\Models\Gig;
 use App\Models\User;
 use App\Http\Resources\GigResource;
@@ -19,7 +19,7 @@ class GigController extends Controller
      * @return JsonResponse
      */
 
-    public function create(NewGigFormRequest $request) {
+    public function create(GigFormRequest $request) {
 
         $validated =  $request->validated();
         $gig =  Gig::create([
@@ -112,7 +112,7 @@ class GigController extends Controller
         
     }
 
-    public function update($id,NewGigFormRequest $request)
+    public function update($id,GigFormRequest $request)
     {
         $validated  = $request->validated();
         $gig = Gig::findorFail($id);
