@@ -111,4 +111,36 @@ class GigController extends Controller
         return response($response, 500);
         
     }
+
+    public function update($id,NewGigFormRequest $request)
+    {
+        $validated  = $request->validated();
+        $gig = Gig::findorFail($id);
+        
+        $gig->company = $validated["company"];
+        $gig->role = $validated["role"];
+        $gig->address = $validated["address"];
+        $gig->region_id = $validated["region"];
+        $gig->tags = $validated["tags"];
+        $gig->min_salary = $validated["min_salary"];
+        $gig->max_salary = $validated["max_salary"];
+        $gig->save();
+
+        if($gig) {
+
+            $response = [
+                'response' => new GigResource($gig),
+                'message' => 'Gig updated sucessfully'
+            ];
+            
+            return response($response, 200);
+        }
+
+        $response = [
+            'message' => 'Gig cannot be updated'
+        ];
+
+
+        return response($response, 500);
+    }
 }
