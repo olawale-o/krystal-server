@@ -26,6 +26,7 @@ Route::prefix('gigs')->group(function() {
     Route::get('/rejected', [GigController::class,'rejectedGigs']);
     Route::get('/{id}', [GigController::class,'gigs']);
     Route::delete('/delete/{id}', [GigController::class,'delete']);
+    Route::put('/update/{id}', [GigController::class,'update'])->name('update');
 });
 Route::post('new-gig', [GigController::class,'create']);
 Route::post('create', [RegisterController::class,'create']);
