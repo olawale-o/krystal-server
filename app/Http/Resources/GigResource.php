@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\RegionResource;
+use App\Http\Resources\CountryResource;
 
 class GigResource extends JsonResource
 {
@@ -21,7 +22,8 @@ class GigResource extends JsonResource
             'role' => $this->role,
             'tags' => $this->tags,
             'address' => $this->address,
-            'region' => new RegionResource($this->region),
+            'country' => (new CountryResource($this->region->country))->id,
+            'region' => (new RegionResource($this->region))->id,
             'min_salary' => $this->min_salary,
             'max_salary' => $this->max_salary,
             'created_at' => date("jS\, F Y",strtotime($this->created_at)),
