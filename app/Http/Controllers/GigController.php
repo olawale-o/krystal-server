@@ -8,6 +8,7 @@ use App\Models\Gig;
 use App\Models\User;
 use App\Http\Resources\GigResource;
 use App\Http\Resources\GigCollection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class GigController extends Controller
 {
@@ -35,13 +36,15 @@ class GigController extends Controller
         if($gig) {
             
             $response = [
+                'success' => true,
+                'message' => 'gig created',
                 'gig' => new GigResource($gig),
-                'response' => 'gig created'
             ];
             return response($response, 200);
         }
         $response = [
-            'message' => "unable to save gig",
+            'sucess' => false,
+            'message' => "Failed to save gig",
         ];
         
         return response($response,500);
@@ -52,9 +55,18 @@ class GigController extends Controller
 
         $gigs =  Gig::with("user")->get();
 
+        if(!$gigs) {
+            $response = [
+                'success' => false,
+                'message' => "Failed to fetch gigs at the moment",
+            ];
+            return response($response, 500);
+        }
+
         $response = [
+            'success' => false,
+            'message' => "All gigs successfully retrieved",
             'response' => new GigCollection($gigs),
-            'message' => "All gigs successfully retrieved"
         ];
 
         return response($response, 200);
@@ -63,15 +75,40 @@ class GigController extends Controller
 
     public function gigs($id , Request $request)
     {
-        $user =  User::findOrFail($id);
-        $gigs = $user->gigs;
+        try {
+            
+            $user =  User::findOrFail($id);
+            $gigs = $user->gigs;
 
-        $response = [
-            'response' => new GigCollection($gigs),
-            'message' => "My gigs successfully retrieved"
-        ];
+            if(!$gigs) {
 
-        return response($response, 200);
+                $response = [
+                    'success' => false,
+                    'message' => 'Failed to fetch your gigs'
+                ];
+                
+                return response($response, 500);
+            }
+
+            $response = [
+                'success' => true,
+                'message' => "My gigs successfully retrieved",
+                'response' => new GigCollection($gigs),
+            ];
+
+            return response($response, 200);
+        } catch (\Throwable $th) {
+
+           if($th instanceof ModelNotFoundException) {
+               $response = [
+                   'success' => false,
+                   'message' => $th->getMessage()
+               ];
+   
+               return response($response, 404);
+           }
+        }
+        
 
     }
 
@@ -79,13 +116,26 @@ class GigController extends Controller
     {
         $gigs =  Gig::where('is_rejected', true)->get();
         
+        if($gigs)
+        {
+
+            $response = [
+                'success' => true,
+                'message' => "Rejected gigs successfully retrieved",
+                'response' => new GigCollection($gigs),
+            ];
+    
+            return response($response, 200);
+        }
 
         $response = [
-            'response' => new GigCollection($gigs),
-            'message' => "Rejected gigs successfully retrieved"
+            'success' => false,
+            'message' => "Failed to fetch rejected gigs",
         ];
 
-        return response($response, 200);
+        return response($response, 500);
+
+
 
     }
 
@@ -114,33 +164,50 @@ class GigController extends Controller
 
     public function update($id,GigFormRequest $request)
     {
-        $validated  = $request->validated();
-        $gig = Gig::findorFail($id);
-        
-        $gig->company = $validated["company"];
-        $gig->role = $validated["role"];
-        $gig->address = $validated["address"];
-        $gig->region_id = $validated["region"];
-        $gig->tags = $validated["tags"];
-        $gig->min_salary = $validated["min_salary"];
-        $gig->max_salary = $validated["max_salary"];
-        $gig->save();
+       try {
+           
+            $validated  = $request->validated();
+            $gig = Gig::findorFail($id);
+            
+            $gig->company = $validated["company"];
+            $gig->role = $validated["role"];
+            $gig->address = $validated["address"];
+            $gig->region_id = $validated["region"];
+            $gig->tags = $validated["tags"];
+            $gig->min_salary = $validated["min_salary"];
+            $gig->max_salary = $validated["max_salary"];
+            $gig->save();
 
-        if($gig) {
+            if($gig) {
+
+                $response = [
+                    'response' => new GigResource($gig),
+                    'message' => 'Gig updated sucessfully'
+                ];
+                
+                return response($response, 200);
+            }
 
             $response = [
-                'response' => new GigResource($gig),
-                'message' => 'Gig updated sucessfully'
+                'success' => false,
+                'message' => 'Gig cannot be updated'
             ];
+
+
+            return response($response, 500);
             
-            return response($response, 200);
-        }
+        } catch (\Throwable $th) {
+            
+            if($th instanceof ModelNotFoundException) {
+                
+                $response = [
+                    'success' => false,
+                    'message' => $th->getMessage()
+                ];
+                return response($response, 404);
 
-        $response = [
-            'message' => 'Gig cannot be updated'
-        ];
+            }
 
-
-        return response($response, 500);
+       }
     }
 }
