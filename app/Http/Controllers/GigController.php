@@ -38,7 +38,7 @@ class GigController extends Controller
             $response = [
                 'success' => true,
                 'message' => 'gig created',
-                'gig' => new GigResource($gig),
+                'response' => new GigResource($gig),
             ];
             return response($response, 200);
         }
