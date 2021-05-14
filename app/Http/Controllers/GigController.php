@@ -64,7 +64,7 @@ class GigController extends Controller
         }
 
         $response = [
-            'success' => false,
+            'success' => true,
             'message' => "All gigs successfully retrieved",
             'response' => new GigCollection($gigs),
         ];
