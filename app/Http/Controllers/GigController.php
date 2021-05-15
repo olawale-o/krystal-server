@@ -54,7 +54,7 @@ class GigController extends Controller
     {
 
         $gigs =  Gig::with("user")->get();
-
+        
         if(!$gigs) {
             $response = [
                 'success' => false,
