@@ -18,9 +18,12 @@ class CreateGigsTable extends Migration
             $table->foreignId("user_id")->constrained()->onDelete('cascade');
             $table->string('company');
             $table->string('role');
+            $table->string('address');
             $table->string('tags');
+            $table->boolean('is_rejected')->before('created_at')->default(false);
             $table->bigInteger('min_salary');
             $table->bigInteger('max_salary');
+            $table->foreignId("region_id")->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
